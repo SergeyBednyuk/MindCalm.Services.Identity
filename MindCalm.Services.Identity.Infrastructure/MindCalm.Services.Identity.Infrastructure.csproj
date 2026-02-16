@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MindCalm.Services.Identity.Core\MindCalm.Services.Identity.Core.csproj" />
+    </ItemGroup>
+
 </Project>
