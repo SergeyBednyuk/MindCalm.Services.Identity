@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindCalm.Services.Identity.Core", "MindCalm.Services.Identity.Core\MindCalm.Services.Identity.Core.csproj", "{BB6E1A4A-BC00-459C-A440-3F85EECDBBFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindCalm.Services.Identity.API", "MindCalm.Services.Identity.API\MindCalm.Services.Identity.API.csproj", "{18EB4B97-6131-4535-85F2-BB23BAC36899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindCalm.Services.Identity.Infrastructure", "MindCalm.Services.Identity.Infrastructure\MindCalm.Services.Identity.Infrastructure.csproj", "{952E484E-CB3C-4363-A77A-C5B496A88938}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB6E1A4A-BC00-459C-A440-3F85EECDBBFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6E1A4A-BC00-459C-A440-3F85EECDBBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6E1A4A-BC00-459C-A440-3F85EECDBBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6E1A4A-BC00-459C-A440-3F85EECDBBFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18EB4B97-6131-4535-85F2-BB23BAC36899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18EB4B97-6131-4535-85F2-BB23BAC36899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18EB4B97-6131-4535-85F2-BB23BAC36899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18EB4B97-6131-4535-85F2-BB23BAC36899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952E484E-CB3C-4363-A77A-C5B496A88938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952E484E-CB3C-4363-A77A-C5B496A88938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952E484E-CB3C-4363-A77A-C5B496A88938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952E484E-CB3C-4363-A77A-C5B496A88938}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
