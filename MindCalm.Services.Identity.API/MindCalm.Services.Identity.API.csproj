@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MindCalm.Services.Identity.Core\MindCalm.Services.Identity.Core.csproj" />
+      <ProjectReference Include="..\MindCalm.Services.Identity.Infrastructure\MindCalm.Services.Identity.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

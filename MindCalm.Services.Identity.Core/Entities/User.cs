@@ -8,10 +8,10 @@ public class User
     public Guid Id { get; private set; }
     public string? Email { get; private set; }
     public string? PasswordHash { get; private set; }
-    public DateTime CreatedAd { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? LastLoginAt { get; private set; }
     public UserRole UserRole { get; private set; }
-    public byte[] RawVervion { get; private set; }
+    public byte[] RowVersion { get; private set; }
     
     protected User() { }
 
@@ -19,7 +19,7 @@ public class User
     {
         Id = id;
         UserRole = userRole;
-        CreatedAd = DateTime.UtcNow;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public static User CreateGuest()
@@ -52,6 +52,10 @@ public class User
         {
             throw new DomainException("Email is required for registration.");
         }
+        
+        Email = email;
+        PasswordHash = passwordHash;
+        UserRole = UserRole.Free;
     }
 
     public void Login()

@@ -1,3 +1,5 @@
+using MindCalm.Services.Identity.Infrastructure.Extensions;
+
 namespace MindCalm.Services.Identity.API;
 
 public class Program
@@ -6,6 +8,8 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddInfrastructure(builder.Configuration);
+        
         // Add services to the container.
         builder.Services.AddAuthorization();
 

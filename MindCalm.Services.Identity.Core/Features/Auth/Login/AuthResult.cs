@@ -1,6 +1,3 @@
 ﻿namespace MindCalm.Services.Identity.Core.Features.Auth.Login;
 
-public class AuthResult
-{
-    
-}
+public record AuthResult(Guid UserId, string Token, string Role) { }
