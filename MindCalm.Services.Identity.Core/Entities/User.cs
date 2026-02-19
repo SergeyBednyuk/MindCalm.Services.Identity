@@ -24,7 +24,7 @@ public class User
 
     public static User CreateGuest()
     {
-        return new User(Guid.NewGuid(), UserRole.Guest);
+        return new User(Guid.CreateVersion7(), UserRole.Guest);
     }
 
     public static User CreateRegisteredUser(string email, string passwordHash, UserRole userRole = UserRole.Free)
@@ -34,7 +34,7 @@ public class User
             throw new DomainException("Email cannot be empty.");
         }
 
-        return new User(Guid.NewGuid(), userRole)
+        return new User(Guid.CreateVersion7(), userRole)
         {
             Email = email,
             PasswordHash = passwordHash
