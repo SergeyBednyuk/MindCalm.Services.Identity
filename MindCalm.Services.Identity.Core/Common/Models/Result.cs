@@ -20,7 +20,7 @@ public class Result<T> where T : class
         return new Result<T>(true, data, message, null);
     }
 
-    public static Result<T> Failed(T? data, string? message = null, IEnumerable<string>? errors = null)
+    public static Result<T> Failed(T? data = null, string? message = null, IEnumerable<string>? errors = null)
     {
         return new Result<T>(false, data, message, errors);
     }

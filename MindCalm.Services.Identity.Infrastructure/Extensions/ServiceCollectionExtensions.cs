@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MindCalm.Services.Identity.Core.Interfaces;
 using MindCalm.Services.Identity.Infrastructure.Data;
 using MindCalm.Services.Identity.Infrastructure.Repositories;
+using MindCalm.Services.Identity.Infrastructure.Services;
 
 namespace MindCalm.Services.Identity.Infrastructure.Extensions;
 
@@ -37,6 +38,7 @@ public static class ServiceCollectionExtensions
         // 3. Register Repositories and Unit of Work
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         
         return services;
     }
