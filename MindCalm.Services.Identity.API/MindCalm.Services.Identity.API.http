@@ -1,6 +1,8 @@
 @MindCalm.Services.Identity.API_HostAddress = http://localhost:5012
+@MindCalm = http://localhost:5012
 
-GET {{MindCalm.Services.Identity.API_HostAddress}}/weatherforecast/
+### Login as Guest
+POST {{MindCalm}}/api/auth/guest
 Accept: application/json
 
 ###
