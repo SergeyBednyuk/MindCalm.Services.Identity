@@ -1,4 +1,5 @@
-﻿using MindCalm.Services.Identity.Core.Common.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using MindCalm.Services.Identity.Core.Common.Enums;
 using MindCalm.Services.Identity.Core.Common.Exceptions;
 
 namespace MindCalm.Services.Identity.Core.Entities;
@@ -11,7 +12,7 @@ public class User
     public DateTime CreatedAt { get; private set; }
     public DateTime? LastLoginAt { get; private set; }
     public UserRole UserRole { get; private set; }
-    public byte[] RowVersion { get; private set; }
+    public uint RowVersion { get; set; }
     
     protected User() { }
 

@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MindCalm.Services.Identity.Infrastructure.Data;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -18,43 +18,43 @@ namespace MindCalm.Services.Identity.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.13")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("MindCalm.Services.Identity.Core.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<uint>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.Property<string>("UserRole")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
+                        .HasFilter("\"Email\" IS NOT NULL");
 
                     b.ToTable("Users");
                 });

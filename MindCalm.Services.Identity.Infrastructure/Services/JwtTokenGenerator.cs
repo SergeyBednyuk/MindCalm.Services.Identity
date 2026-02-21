@@ -2,9 +2,11 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using MindCalm.Services.Identity.Core.Entities;
 using MindCalm.Services.Identity.Core.Interfaces;
+using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 namespace MindCalm.Services.Identity.Infrastructure.Services;
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MindCalm.Services.Identity.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initUsers : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,13 @@ namespace MindCalm.Services.Identity.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastLoginAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserRole = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastLoginAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserRole = table.Column<string>(type: "text", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +33,7 @@ namespace MindCalm.Services.Identity.Infrastructure.Migrations
                 table: "Users",
                 column: "Email",
                 unique: true,
-                filter: "[Email] IS NOT NULL");
+                filter: "\"Email\" IS NOT NULL");
         }
 
         /// <inheritdoc />

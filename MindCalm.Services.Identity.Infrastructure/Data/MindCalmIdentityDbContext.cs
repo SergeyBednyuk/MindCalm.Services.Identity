@@ -17,13 +17,13 @@ public class MindCalmIdentityDbContext(DbContextOptions<MindCalmIdentityDbContex
             
             entity.HasIndex(e => e.Email)
                   .IsUnique()
-                  .HasFilter("[Email] IS NOT NULL");
+                  .HasFilter("\"Email\" IS NOT NULL");
 
             entity.Property(e => e.UserRole)
                   .HasConversion<string>();
-
-            entity.Property(e => e.RowVersion)
-                  .IsRowVersion();
+            
+            entity.Property(p => p.RowVersion)
+                .IsRowVersion();
         });
     }
 }

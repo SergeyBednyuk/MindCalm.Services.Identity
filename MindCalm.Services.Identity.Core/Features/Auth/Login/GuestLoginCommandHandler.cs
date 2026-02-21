@@ -41,7 +41,7 @@ public class GuestLoginCommandHandler(
                 return Result<AuthResult>.Success(authResult);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return Result<AuthResult>.Failed(message: "An error occurred while creating the guest user.");
         }
