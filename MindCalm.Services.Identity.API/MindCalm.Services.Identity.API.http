@@ -6,3 +6,38 @@ POST {{MindCalm}}/api/auth/guest
 Accept: application/json
 
 ###
+### 2. Register a Brand New User (Direct Registration)
+POST {{MindCalm}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": null,
+  "email": "john.doe@mindcalm.com",
+  "password": "SuperSecretPassword1!"
+}
+
+### 3. Promote an Existing Guest to Registered
+# Step 1: Run the Guest Login request first to get a token and UserId.
+# Step 2: Copy that UserId and replace the string below!
+POST {{MindCalm}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "019c90d6-2cc7-7bad-b1f7-ea2980cb5509",
+  "email": "upgraded.guest@mindcalm.com",
+  "password": "SuperSecretPassword1!"
+}
+
+### 4. Test FluentValidation Failure (Should return 400 Bad Request)
+# This sends a bad email and a weak password to trigger the MediatR Pipeline!
+POST {{MindCalm}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "019c90d6-2cc7-7bad-b1f7-ea2980cb5509",
+  "email": "not-a-valid-email",
+  "password": "weak"
+}
