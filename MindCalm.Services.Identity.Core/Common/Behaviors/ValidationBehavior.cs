@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using MindCalm.Services.Identity.Core.Common.Models;
 
-namespace MindCalm.Services.Identity.Core.Common.Exceptions;
+namespace MindCalm.Services.Identity.Core.Common.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>

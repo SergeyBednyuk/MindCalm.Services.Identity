@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MindCalm.Services.Identity.Core.Common.Exceptions;
+using MindCalm.Services.Identity.Core.Common.Behaviors;
 
 namespace MindCalm.Services.Identity.Core;
 
