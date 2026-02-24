@@ -17,11 +17,11 @@ public class GuestLoginCommandHandler(
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
-    
+
     public async Task<Result<AuthResult>> Handle(GuestLoginCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Creating new guest user...");
-        
+
         try
         {
             var guestUser = User.CreateGuest();
@@ -33,11 +33,11 @@ public class GuestLoginCommandHandler(
             if (affectedRecords == 1)
             {
                 var token = _jwtTokenGenerator.GenerateToken(guestUser);
-                
+
                 var authResult = new AuthResult(guestUser.Id, token, guestUser.UserRole.ToString());
-                
+
                 _logger.LogInformation("the new guest user was created");
-                
+
                 return Result<AuthResult>.Success(authResult);
             }
         }
@@ -45,7 +45,7 @@ public class GuestLoginCommandHandler(
         {
             return Result<AuthResult>.Failed(message: "An error occurred while creating the guest user.");
         }
-        
+
         return Result<AuthResult>.Failed(message: "the new guest user was not created.");
     }
 }
