@@ -8,6 +8,7 @@ namespace MindCalm.Services.Identity.Infrastructure.Repositories;
 public class UserRepository(MindCalmIdentityDbContext dbContext) : IUserRepository
 {
     private readonly MindCalmIdentityDbContext _dbContext = dbContext;
+
     public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Users.ToListAsync(cancellationToken);
@@ -17,6 +18,12 @@ public class UserRepository(MindCalmIdentityDbContext dbContext) : IUserReposito
     {
         return await _dbContext.Users.FindAsync(id, cancellationToken);
     }
+
+    public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+    }
+
 
     public async Task AddAsync(User newUser, CancellationToken cancellationToken = default)
     {

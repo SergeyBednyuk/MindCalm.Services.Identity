@@ -4,14 +4,14 @@ using MindCalm.Services.Identity.Core.Common.Models;
 using MindCalm.Services.Identity.Core.Entities;
 using MindCalm.Services.Identity.Core.Interfaces;
 
-namespace MindCalm.Services.Identity.Core.Features.Auth.Login;
+namespace MindCalm.Services.Identity.Core.Features.Auth.Login.GuestLogin;
 
 public class GuestLoginCommandHandler(
     ILogger<GuestLoginCommandHandler> logger,
     IJwtTokenGenerator jwtTokenGenerator,
     IUnitOfWork unitOfWork,
-    IUserRepository userRepository)
-    : IRequestHandler<GuestLoginCommand, Result<AuthResult>>
+    IUserRepository userRepository
+    ) : IRequestHandler<GuestLoginCommand, Result<AuthResult>>
 {
     private readonly ILogger<GuestLoginCommandHandler> _logger = logger;
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
