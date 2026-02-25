@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
         var dbBuilder = new NpgsqlConnectionStringBuilder()
         {
             Host = configuration["DB_HOST"] ?? "localhost",
-            Port = 5433,
+            Port = int.TryParse(configuration["DB_PORT"], out var port) ? port : 5432,
             Database = configuration["DB_NAME"] ?? "mindcalm_identity", // Postgres prefers lowercase
             Username = configuration["DB_USER"] ?? "postgres",
             Password = configuration["DB_PASSWORD"] ?? "Legion13"

@@ -7,10 +7,20 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["MindCalm.Services.Identity.API/MindCalm.Services.Identity.API.csproj", "MindCalm.Services.Identity.API/"]
-RUN dotnet restore "MindCalm.Services.Identity.API/MindCalm.Services.Identity.API.csproj"
+
+# 1. COPY ALL THREE CSPROJ FILES
+COPY ["MindCalm.Services.Identity/MindCalm.Services.Identity.API/MindCalm.Services.Identity.API.csproj", "MindCalm.Services.Identity/MindCalm.Services.Identity.API/"]
+COPY ["MindCalm.Services.Identity/MindCalm.Services.Identity.Core/MindCalm.Services.Identity.Core.csproj", "MindCalm.Services.Identity/MindCalm.Services.Identity.Core/"]
+COPY ["MindCalm.Services.Identity/MindCalm.Services.Identity.Infrastructure/MindCalm.Services.Identity.Infrastructure.csproj", "MindCalm.Services.Identity/MindCalm.Services.Identity.Infrastructure/"]
+
+# 2. RESTORE
+RUN dotnet restore "MindCalm.Services.Identity/MindCalm.Services.Identity.API/MindCalm.Services.Identity.API.csproj"
+
+# 3. COPY EVERYTHING ELSE
 COPY . .
-WORKDIR "/src/MindCalm.Services.Identity.API"
+
+# 4. BUILD & PUBLISH
+WORKDIR "/src/MindCalm.Services.Identity/MindCalm.Services.Identity.API"
 RUN dotnet build "./MindCalm.Services.Identity.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
