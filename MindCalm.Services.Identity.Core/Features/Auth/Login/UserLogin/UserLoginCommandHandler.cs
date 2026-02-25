@@ -32,14 +32,14 @@ public class UserLoginCommandHandler(
             if (userToLogin is null)
             {
                 _logger.LogWarning("The {Email} user was not found in the database", request.Email);
-                return Result<AuthResult>.Failed(data: null, message: "There is no user with this email");
+                return Result<AuthResult>.Failed(data: null, message: "Invalid email or password.");
             }
 
             if (string.IsNullOrEmpty(userToLogin.PasswordHash) ||
                 !_passwordHasher.VerifyPassword(request.Password, userToLogin.PasswordHash))
             {
                 _logger.LogWarning("The {Email} user password doesn't match in the database", request.Email);
-                return Result<AuthResult>.Failed(data: null, "Password is mismatched");
+                return Result<AuthResult>.Failed(data: null, "Invalid email or password.");
             }
             
             // 3. LOGIN AND SAVE TO DATABASE

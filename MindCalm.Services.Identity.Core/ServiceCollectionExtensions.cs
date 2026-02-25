@@ -20,9 +20,6 @@ public static class ServiceCollectionExtensions
             cfg.RegisterServicesFromAssembly(assembly);
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
-        
-        services.AddMediatR(cfg => 
-            cfg.RegisterServicesFromAssembly(typeof(GuestLoginCommand).Assembly));
 
         // 2. Register all FluentValidation Validators in this project automatically
         services.AddValidatorsFromAssembly(assembly);
