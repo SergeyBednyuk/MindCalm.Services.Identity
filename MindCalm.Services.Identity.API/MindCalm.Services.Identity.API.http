@@ -5,7 +5,6 @@
 POST {{MindCalm}}/api/auth/guest
 Accept: application/json
 
-###
 ### 2. Register a Brand New User (Direct Registration)
 POST {{MindCalm}}/api/auth/register
 Content-Type: application/json
@@ -41,3 +40,17 @@ Accept: application/json
   "email": "not-a-valid-email",
   "password": "weak"
 }
+
+### 5. Test the Standard Login (Make sure you use the email/password you registered earlier!)
+POST {{MindCalm}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "upgraded.guest@mindcalm.com",
+  "password": "SuperSecretPassword1!"
+}
+
+### 6. JWT TEST 
+GET {{MindCalm}}/api/auth/me
+Accept: application/json
