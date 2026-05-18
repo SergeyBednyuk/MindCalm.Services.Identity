@@ -11,7 +11,7 @@ public class GuestLoginCommandHandler(
     IJwtTokenGenerator jwtTokenGenerator,
     IUnitOfWork unitOfWork,
     IUserRepository userRepository
-    ) : IRequestHandler<GuestLoginCommand, Result<AuthResult>>
+) : IRequestHandler<GuestLoginCommand, Result<AuthResult>>
 {
     private readonly ILogger<GuestLoginCommandHandler> _logger = logger;
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
@@ -22,29 +22,24 @@ public class GuestLoginCommandHandler(
     {
         _logger.LogInformation("Creating new guest user...");
 
-        try
+        //Add checking instead exception throwing 
+        var guestUser = User.CreateGuest();
+
+        await _userRepository.AddAsync(guestUser, cancellationToken);
+
+        var affectedRecords = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        if (affectedRecords == 1)
         {
-            var guestUser = User.CreateGuest();
+            var token = _jwtTokenGenerator.GenerateToken(guestUser);
 
-            await _userRepository.AddAsync(guestUser, cancellationToken);
+            var authResult = new AuthResult(guestUser.Id, token, guestUser.UserRole.ToString());
 
-            var affectedRecords = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("the new guest user was created");
 
-            if (affectedRecords == 1)
-            {
-                var token = _jwtTokenGenerator.GenerateToken(guestUser);
-
-                var authResult = new AuthResult(guestUser.Id, token, guestUser.UserRole.ToString());
-
-                _logger.LogInformation("the new guest user was created");
-
-                return Result<AuthResult>.Success(authResult);
-            }
+            return Result<AuthResult>.Success(authResult);
         }
-        catch (Exception)
-        {
-            return Result<AuthResult>.Failed(message: "An error occurred while creating the guest user.");
-        }
+
 
         return Result<AuthResult>.Failed(message: "the new guest user was not created.");
     }

@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MindCalm.Services.Identity.API.Infrastructure.Exceptions;
 using MindCalm.Services.Identity.Core;
 using MindCalm.Services.Identity.Core.Features.Auth.Login.GuestLogin;
 using MindCalm.Services.Identity.Infrastructure.Extensions;
@@ -37,8 +38,13 @@ public class Program
         builder.Services.AddAuthorization();
 
         builder.Services.AddSwaggerGen();
+        
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
+
+        app.UseExceptionHandler();
         
         using (var scope = app.Services.CreateScope())
         {

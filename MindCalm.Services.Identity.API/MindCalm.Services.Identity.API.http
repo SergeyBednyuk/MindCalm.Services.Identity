@@ -1,12 +1,13 @@
 @MindCalm.Services.Identity.API_HostAddress = http://localhost:5012
 @MindCalm = http://localhost:5000
+@MindCalmLocal = http://localhost:5012
 
 ### Login as Guest
-POST {{MindCalm}}/api/auth/guest
+POST {{MindCalmLocal}}/api/auth/guest
 Accept: application/json
 
 ### 2. Register a Brand New User (Direct Registration)
-POST {{MindCalm}}/api/auth/register
+POST {{MindCalmLocal}}/api/auth/register
 Content-Type: application/json
 Accept: application/json
 
@@ -19,7 +20,7 @@ Accept: application/json
 ### 3. Promote an Existing Guest to Registered
 # Step 1: Run the Guest Login request first to get a token and UserId.
 # Step 2: Copy that UserId and replace the string below!
-POST {{MindCalm}}/api/auth/register
+POST {{MindCalmLocal}}/api/auth/register
 Content-Type: application/json
 Accept: application/json
 
@@ -31,7 +32,7 @@ Accept: application/json
 
 ### 4. Test FluentValidation Failure (Should return 400 Bad Request)
 # This sends a bad email and a weak password to trigger the MediatR Pipeline!
-POST {{MindCalm}}/api/auth/register
+POST {{MindCalmLocal}}/api/auth/register
 Content-Type: application/json
 Accept: application/json
 
@@ -42,15 +43,15 @@ Accept: application/json
 }
 
 ### 5. Test the Standard Login (Make sure you use the email/password you registered earlier!)
-POST {{MindCalm}}/api/auth/login
+POST {{MindCalmLocal}}/api/auth/login
 Content-Type: application/json
 Accept: application/json
 
 {
-  "email": "upgraded.guest@mindcalm.com",
+  "email": "john.doe@mindcalm.com",
   "password": "SuperSecretPassword1!"
 }
 
 ### 6. JWT TEST 
-GET {{MindCalm}}/api/auth/me
+GET {{MindCalmLocal}}/api/auth/me
 Accept: application/json
