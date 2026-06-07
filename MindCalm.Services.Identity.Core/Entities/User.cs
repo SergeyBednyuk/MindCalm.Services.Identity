@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MindCalm.Services.Identity.Core.Common.Enums;
 using MindCalm.Services.Identity.Core.Common.Exceptions;
+using MindCalm.Services.Identity.Core.Values;
 
 namespace MindCalm.Services.Identity.Core.Entities;
 
 public class User
 {
     public Guid Id { get; private set; }
-    public string? Email { get; private set; }
-    public string? PasswordHash { get; private set; }
+    public Email Email { get; private set; }
+    public PasswordHash PasswordHash { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? LastLoginAt { get; private set; }
     public UserRole UserRole { get; private set; }
