@@ -20,7 +20,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.UpdatedAt)
             .IsRequired(false);
 
-        builder.Property<uint>("RowVersion")
+        builder.Property<byte[]>("RowVersion")
             .HasColumnName("RowVersion")
             .IsRowVersion();
 
