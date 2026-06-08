@@ -23,4 +23,14 @@ public sealed class Email
     }
 
     public override string ToString() => Value;
+
+    public override bool Equals(object obj)
+    {
+        return obj is Email otherEmailValue && Value == otherEmailValue.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
 }

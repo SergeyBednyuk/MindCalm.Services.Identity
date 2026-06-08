@@ -26,4 +26,14 @@ public sealed class PasswordHash
     }
 
     public override string ToString() => Value;
+
+    public override bool Equals(object obj)
+    {
+        return obj is PasswordHash otherPasswordHashValue && Value == otherPasswordHashValue.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
 }

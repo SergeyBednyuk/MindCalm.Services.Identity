@@ -1,19 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MindCalm.Services.Identity.Core.Common.Domain;
 using MindCalm.Services.Identity.Core.Common.Enums;
 using MindCalm.Services.Identity.Core.Common.Exceptions;
 using MindCalm.Services.Identity.Core.Values;
 
 namespace MindCalm.Services.Identity.Core.Entities;
 
-public class User
+public class User : Entity
 {
-    public Guid Id { get; private set; }
-    public Email Email { get; private set; }
-    public PasswordHash PasswordHash { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime? LastLoginAt { get; private set; }
+    public Email? Email { get; private set; }
+    public PasswordHash? PasswordHash { get; private set; }
     public UserRole UserRole { get; private set; }
-    public uint RowVersion { get; set; }
+    public DateTime? LastLoginAt { get; private set; }
     
     protected User() { }
 
@@ -24,23 +21,26 @@ public class User
         CreatedAt = DateTime.UtcNow;
     }
 
+    private User(Guid id, Email email, PasswordHash passwordHash, UserRole userRole)
+    {
+        Id = id;
+        Email = email;
+        PasswordHash = passwordHash;
+        UserRole = userRole;
+        CreatedAt = DateTime.UtcNow;
+    }
+
     public static User CreateGuest()
     {
         return new User(Guid.CreateVersion7(), UserRole.Guest);
     }
 
-    public static User CreateRegisteredUser(string email, string passwordHash, UserRole userRole = UserRole.Free)
+    public static User CreateRegisteredUser(Email email, PasswordHash passwordHash, UserRole userRole = UserRole.Free)
     {
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new DomainException("Email cannot be empty.");
-        }
+        if (userRole == UserRole.Guest)
+            throw new DomainException("Use CreateGuest for guest users.");
 
-        return new User(Guid.CreateVersion7(), userRole)
-        {
-            Email = email,
-            PasswordHash = passwordHash
-        };
+        return new User(Guid.CreateVersion7(), email, passwordHash, userRole);
     }
 
     public void PromoteToRegistered(string email, string passwordHash)
@@ -49,19 +49,15 @@ public class User
         {
             throw new DomainException("User is already registered.");
         }
-
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new DomainException("Email is required for registration.");
-        }
         
-        Email = email;
-        PasswordHash = passwordHash;
+        Email = Email.Create(email);
+        PasswordHash = PasswordHash.CreateHash(passwordHash);
         UserRole = UserRole.Free;
     }
 
     public void Login()
     {
+        UpdatedAt = DateTime.UtcNow;
         LastLoginAt = DateTime.UtcNow;
     }
 }
