@@ -16,24 +16,18 @@ namespace MindCalm.Services.Identity.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    PasswordHash = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    UserRole = table.Column<int>(type: "integer", nullable: false),
                     LastLoginAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UserRole = table.Column<string>(type: "text", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
-                unique: true,
-                filter: "\"Email\" IS NOT NULL");
         }
 
         /// <inheritdoc />

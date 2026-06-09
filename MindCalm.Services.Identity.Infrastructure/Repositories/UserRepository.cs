@@ -21,7 +21,7 @@ public class UserRepository(MindCalmIdentityDbContext dbContext) : IUserReposito
 
     public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email != null && x.Email.Value == email, cancellationToken);
     }
 
 
@@ -32,6 +32,6 @@ public class UserRepository(MindCalmIdentityDbContext dbContext) : IUserReposito
 
     public async Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken = default)
     {
-        return !await _dbContext.Users.AnyAsync(x => x.Email == email, cancellationToken);
+        return !await _dbContext.Users.AnyAsync(x => x.Email != null && x.Email.Value == email, cancellationToken);
     }
 }
