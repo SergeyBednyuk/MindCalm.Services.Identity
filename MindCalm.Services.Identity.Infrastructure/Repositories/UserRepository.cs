@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MindCalm.Services.Identity.Core.Entities;
 using MindCalm.Services.Identity.Core.Interfaces;
+using MindCalm.Services.Identity.Core.Values;
 using MindCalm.Services.Identity.Infrastructure.Data;
 
 namespace MindCalm.Services.Identity.Infrastructure.Repositories;
@@ -21,7 +22,8 @@ public class UserRepository(MindCalmIdentityDbContext dbContext) : IUserReposito
 
     public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email != null && x.Email.Value == email, cancellationToken);
+        var emailEntity = Email.Create(email);
+        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == emailEntity, cancellationToken);
     }
 
 
@@ -32,6 +34,7 @@ public class UserRepository(MindCalmIdentityDbContext dbContext) : IUserReposito
 
     public async Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken = default)
     {
-        return !await _dbContext.Users.AnyAsync(x => x.Email != null && x.Email.Value == email, cancellationToken);
+        var emailEntity = Email.Create(email);
+        return !await _dbContext.Users.AnyAsync(x => x.Email == emailEntity, cancellationToken);
     }
 }

@@ -43,15 +43,15 @@ public class User : Entity
         return new User(Guid.CreateVersion7(), email, passwordHash, userRole);
     }
 
-    public void PromoteToRegistered(string email, string passwordHash)
+    public void PromoteToRegistered(Email email, PasswordHash passwordHash)
     {
         if (UserRole != UserRole.Guest)
         {
             throw new DomainException("User is already registered.");
         }
-        
-        Email = Email.Create(email);
-        PasswordHash = PasswordHash.CreateHash(passwordHash);
+
+        Email = email;
+        PasswordHash = passwordHash;
         UserRole = UserRole.Free;
     }
 

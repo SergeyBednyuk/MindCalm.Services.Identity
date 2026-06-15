@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Logging;
 using MindCalm.Services.Identity.Core.Common.Models;
 using MindCalm.Services.Identity.Core.Interfaces;
+using MindCalm.Services.Identity.Core.Values;
 
 namespace MindCalm.Services.Identity.Core.Features.Auth.Login.UserLogin;
 
 public class UserLoginCommandHandler(
     ILogger<UserLoginCommandHandler> logger,
     IJwtTokenGenerator jwtTokenGenerator,
-    IPasswordHasher passwordHasher,
     IUnitOfWork unitOfWork,
     IUserRepository userRepository
 ) : IRequestHandler<UserLoginCommand, Result<AuthResult>>
@@ -16,7 +16,6 @@ public class UserLoginCommandHandler(
     private readonly ILogger<UserLoginCommandHandler> _logger = logger;
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IPasswordHasher _passwordHasher = passwordHasher;
     private readonly IUserRepository _userRepository = userRepository;
 
     public async Task<Result<AuthResult>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
@@ -35,8 +34,8 @@ public class UserLoginCommandHandler(
                 return Result<AuthResult>.Failed(data: null, message: "Invalid email or password.");
             }
 
-            if (string.IsNullOrEmpty(userToLogin.PasswordHash) ||
-                !_passwordHasher.VerifyPassword(request.Password, userToLogin.PasswordHash))
+            if (string.IsNullOrEmpty(userToLogin.PasswordHash!.Value) ||
+                !PasswordHash.Verify(request.Password, userToLogin.PasswordHash.Value))
             {
                 _logger.LogWarning("The {Email} user password doesn't match in the database", request.Email);
                 return Result<AuthResult>.Failed(data: null, "Invalid email or password.");

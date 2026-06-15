@@ -14,6 +14,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // Base entity mapping
         builder.HasKey(u => u.Id);
 
+        builder.Property(u => u.Id)
+            .ValueGeneratedNever();
+
         builder.Property(u => u.CreatedAt)
             .IsRequired();
 
@@ -22,9 +25,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("timestamp with time zone")
             .IsRequired(false);
 
-        builder.Property<byte[]>("RowVersion")
+        builder.Property<byte[]>(u => u.RowVersion)
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .IsRowVersion();
+            .IsRowVersion()
+            .HasDefaultValueSql("E'\\x01'"); 
 
         // User entity mapping
         builder.Property(u => u.Email)
@@ -40,7 +45,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(255)
             .HasConversion(
                 p => p != null ? p.Value : null,
-                p => p != null ? PasswordHash.CreateHash(p) : null
+                p => p != null ? PasswordHash.Create(p) : null
             );
 
         builder.Property(u => u.UserRole)

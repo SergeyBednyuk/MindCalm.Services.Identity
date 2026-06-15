@@ -14,15 +14,23 @@ public sealed class PasswordHash
         Value = value;
     }
 
+    public static PasswordHash Create(string hash)
+    {
+        if (string.IsNullOrWhiteSpace(hash))
+            throw new DomainException("Password hash cannot be empty.");
+        
+        return new PasswordHash(hash);
+    }
+    
     public static PasswordHash CreateHash(string passwordText)
     {
         var hashed = BCrypt.Net.BCrypt.EnhancedHashPassword(passwordText, 13);
         return new PasswordHash(hashed);
     }
 
-    public bool Verify(string password)
+    public static bool Verify(string password, string passwordHash)
     {
-        return BCrypt.Net.BCrypt.Verify(password, Value);
+        return BCrypt.Net.BCrypt.EnhancedVerify(password, passwordHash);
     }
 
     public override string ToString() => Value;

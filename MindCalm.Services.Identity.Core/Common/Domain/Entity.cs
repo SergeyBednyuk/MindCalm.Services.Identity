@@ -5,7 +5,7 @@ public abstract class Entity
     public Guid Id { get; protected set; }
     public DateTime CreatedAt { get; protected set; }
     public DateTime? UpdatedAt { get; protected set; }
-    public byte[] RowVersion { get; protected set; } = Array.Empty<byte>();
+    public byte[] RowVersion { get; set; } = new byte[] { 1 };
 
     public override bool Equals(object obj)
     {

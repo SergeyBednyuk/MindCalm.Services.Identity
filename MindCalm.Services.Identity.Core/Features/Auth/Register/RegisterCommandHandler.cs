@@ -5,13 +5,13 @@ using MindCalm.Services.Identity.Core.Common.Models;
 using MindCalm.Services.Identity.Core.Entities;
 using MindCalm.Services.Identity.Core.Features.Auth.Login;
 using MindCalm.Services.Identity.Core.Interfaces;
+using MindCalm.Services.Identity.Core.Values;
 
 namespace MindCalm.Services.Identity.Core.Features.Auth.Register;
 
 public class RegisterCommandHandler(
     ILogger<RegisterCommandHandler> logger,
     IJwtTokenGenerator jwtTokenGenerator,
-    IPasswordHasher passwordHasher,
     IUnitOfWork unitOfWork,
     IUserRepository userRepository) 
     : IRequestHandler<RegisterCommand, Result<RegisterResult>>
@@ -28,7 +28,8 @@ public class RegisterCommandHandler(
                 return Result<RegisterResult>.Failed(message: $"User with {request.Email} email already exist.");
             }
 
-            var hashedPassword = passwordHasher.HashPassword(request.Password);
+            var email = Email.Create(request.Email);
+            var hashedPassword = PasswordHash.CreateHash(request.Password);
             User userToSave;
 
             // 2. SCENARIO A: Promote Existing Guest
@@ -41,13 +42,13 @@ public class RegisterCommandHandler(
                     return Result<RegisterResult>.Failed(message: $"There is no user with id {request.UserId}");
                 }
 
-                guest.PromoteToRegistered(request.Email, hashedPassword);
+                guest.PromoteToRegistered(email, hashedPassword);
                 userToSave = guest;
             }
             // 3. SCENARIO B: Direct Registration (New User)
             else
             {
-                userToSave = User.CreateRegisteredUser(request.Email, hashedPassword);
+                userToSave = User.CreateRegisteredUser(email, hashedPassword);
                 await userRepository.AddAsync(userToSave, cancellationToken);
             }
 
